@@ -67,7 +67,7 @@ def list_files() -> list[dict]:
     return [
         {
             "name": f.name,
-            "path": str(f.relative_to(Path("."))),
+            "path": f.relative_to(Path(".")).as_posix(),
             "size": f.stat().st_size,
         }
         for f in sorted(OUTPUT_DIR.rglob("*.xlsx"), reverse=True)
@@ -93,8 +93,4 @@ def delete_file(path: str):
     if not fp.is_relative_to(allowed_dir) or not fp.exists() or fp.suffix != ".xlsx":
         raise HTTPException(404, "文件不存在")
     fp.unlink()
-    # 如果父目录为空，也一并删除
-    parent = fp.parent
-    if parent != allowed_dir and parent.exists() and not any(parent.iterdir()):
-        parent.rmdir()
     return {"ok": True}

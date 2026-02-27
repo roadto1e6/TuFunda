@@ -398,6 +398,7 @@ class StockFetcher:
             if name in data:
                 sheets.setdefault(sheet, []).append(data[name])
 
+        save_dir.mkdir(parents=True, exist_ok=True)
         filename = f'{code.replace(".", "_")}_{today}.xlsx'
         with pd.ExcelWriter(save_dir / filename, engine="openpyxl") as w:
             for sheet, dfs in sheets.items():

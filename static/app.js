@@ -263,9 +263,15 @@ function setTaskState(state) {
 async function deleteFile(path) {
     if (!confirm("确定删除该文件？")) return;
     try {
-        await fetch(`/api/files/${encodeURIComponent(path)}`, { method: "DELETE" });
+        const res = await fetch(`/api/files/${path}`, { method: "DELETE" });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            alert("删除失败: " + (err.detail || res.statusText));
+        }
         loadFiles();
-    } catch { /* ignore */ }
+    } catch (e) {
+        alert("删除失败: " + e.message);
+    }
 }
 
 async function loadFiles() {
@@ -277,10 +283,10 @@ async function loadFiles() {
         }
         fileList.innerHTML = files.map(f => `
             <div class="file-item">
-                <a href="/api/download/${encodeURIComponent(f.path)}" download>${f.name}</a>
+                <a href="/api/download/${f.path}" download>${f.name}</a>
                 <div class="file-meta">
                     <span class="file-size">${(f.size / 1024).toFixed(1)} KB</span>
-                    <a href="/api/download/${encodeURIComponent(f.path)}" download class="file-dl">下载</a>
+                    <a href="/api/download/${f.path}" download class="file-dl">下载</a>
                     <button class="file-del" onclick="deleteFile('${f.path.replace(/'/g, "\\'")}')">删除</button>
                 </div>
             </div>

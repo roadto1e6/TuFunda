@@ -150,7 +150,7 @@ def _collect_files(save_dir: Path | None) -> list[str]:
     if save_dir is None or not save_dir.exists():
         return []
     return [
-        str(f.relative_to(Path(".")))
+        f.relative_to(Path(".")).as_posix()
         for f in sorted(save_dir.glob("*.xlsx"))
     ]
 
