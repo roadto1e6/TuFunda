@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+.env
+CLAUDE.md
+tasks/
+*.md
+!requirements.txt
