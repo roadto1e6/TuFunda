@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个股基本面查询工具</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- 顶部标题栏 -->
+<header class="hero">
+    <h1>个股基本面查询工具</h1>
+    <p class="subtitle">Tushare 数据批量获取 &middot; 实时进度 &middot; Excel 导出</p>
+</header>
+
+<div class="container">
+
+    <!-- Token 设置 -->
+    <section class="card token-card" id="token-section">
+        <div class="card-header" id="token-header">
+            <h2>Tushare Token</h2>
+            <span id="token-status" class="status-badge"></span>
+        </div>
+        <div class="token-body" id="token-body" style="display:none">
+            <div class="token-row">
+                <input type="password" id="token-input" placeholder="粘贴你的 Tushare Token">
+                <button id="token-save-btn" class="btn">&#128274; 保存</button>
+            </div>
+            <p class="hint">在 <a href="https://tushare.pro" target="_blank">tushare.pro</a> 注册后获取 Token</p>
+        </div>
+    </section>
+
+    <!-- 查询表单 -->
+    <section class="card">
+        <h2>&#128269; 查询参数</h2>
+
+        <!-- 股票代码标签输入 -->
+        <div class="form-group">
+            <label>股票代码</label>
+            <div class="tag-input-wrap">
+                <div class="tag-list" id="tag-list"></div>
+                <div class="tag-input-row">
+                    <input type="text" id="code-input" placeholder="输入代码如 603256，回车添加" maxlength="12">
+                    <button id="add-code-btn" class="btn btn-sm">&#10010; 添加</button>
+                </div>
+            </div>
+            <p class="hint">纯数字自动补后缀：6/9开头→.SH，其余→.SZ</p>
+        </div>
+
+        <!-- 日期范围 -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="start-date">起始日期</label>
+                <input type="date" id="start-date">
+            </div>
+            <div class="form-group">
+                <label for="end-date">结束日期</label>
+                <input type="date" id="end-date">
+            </div>
+            <div class="form-group">
+                <label for="years">回溯年数</label>
+                <input type="number" id="years" value="3" min="1" max="10">
+            </div>
+        </div>
+
+        <button id="start-btn" class="btn btn-primary">&#9654; 开始查询</button>
+    </section>
+
+    <!-- 进度面板 -->
+    <section class="card" id="progress-section" style="display:none">
+        <h2>&#9881; 查询进度 <span id="task-state" class="status-badge"></span></h2>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progress-bar">0%</div>
+        </div>
+        <div class="log-area" id="log-area"></div>
+    </section>
+
+    <!-- 结果面板 -->
+    <section class="card">
+        <div class="card-header">
+            <h2>&#128230; 历史文件</h2>
+            <button id="refresh-files-btn" class="btn btn-sm">&#8635; 刷新</button>
+        </div>
+        <div id="file-list"><em class="empty-hint">暂无文件</em></div>
+    </section>
+
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
